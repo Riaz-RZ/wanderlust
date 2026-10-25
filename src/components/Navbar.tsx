@@ -6,7 +6,7 @@ const navLinks = [
   { href: "/", label: "Home", active: true },
   { href: "/destinations", label: "Destinations" },
   { href: "/bookings", label: "My Bookings" },
-  { href: "/admin", label: "Admin" },
+  { href: "/add-destination", label: "Add Destination" },
 ];
 
 export default function Navbar() {
