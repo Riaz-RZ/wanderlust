@@ -2,9 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
     ArrowLeft,
-    ArrowRight,
     CalendarDays,
-    CheckCircle2,
     Clock,
     MapPin,
     ShieldCheck,
@@ -12,7 +10,6 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -23,6 +20,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import EditDestinationDialog from "@/components/EditDestinationDialog";
 import DeleteDestinationDialog from "@/components/DeleteDestinationDialog";
+import BookingCard from "@/components/booking/BookingCard";
 
 interface Destination {
     _id: string;
@@ -36,11 +34,12 @@ interface Destination {
     description: string;
 }
 
-const destinationDetailsPage = async ({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) => {
+function formattedDate(value: string) {
+        const [year, month, day] = value.split("-");
+        return `${month}/${day}/${year}`;
+    }
+
+const destinationDetailsPage = async ({ params }: { params: Promise<{ id: string }>; }) => {
     const { id } = await params;
 
     const res = await fetch(
@@ -56,22 +55,9 @@ const destinationDetailsPage = async ({
 
     const destinationData: Destination = await res.json();
 
-    const formattedPrice = Number(
-        destinationData.price
-    ).toLocaleString("en-BD");
 
-    const departureDate = new Date(
-        `${destinationData.departureDate}T00:00:00`
-    );
 
-    const formattedDate = departureDate.toLocaleDateString(
-        "en-GB",
-        {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        }
-    );
+    
 
     return (
         <main className="min-h-screen bg-linear-to-b from-teal-50/50 via-slate-50 to-white">
@@ -181,7 +167,7 @@ const destinationDetailsPage = async ({
                                                 Departure date
                                             </p>
                                             <p className="mt-1 font-semibold text-slate-900">
-                                                {formattedDate}
+                                                {formattedDate(destinationData.departureDate)}
                                             </p>
                                         </div>
                                     </div>
@@ -222,96 +208,8 @@ const destinationDetailsPage = async ({
                         </Card>
                     </div>
 
-                    <aside className="lg:sticky lg:top-24">
-                        <Card className="overflow-hidden rounded-3xl border-slate-200/80 bg-white shadow-lg shadow-slate-900/5">
-                            <div className="relative overflow-hidden bg-linear-to-br from-teal-800 to-teal-950 px-6 py-6 text-white sm:px-7">
-                                <div className="absolute -right-10 -top-14 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
-                                <p className="relative text-sm font-medium text-teal-100">
-                                    Starting from
-                                </p>
-                                <div className="relative mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                                    <span className="text-3xl font-bold tracking-tight sm:text-4xl">
-                                        ৳{formattedPrice}
-                                    </span>
-                                    <span className="text-sm text-teal-100">
-                                        per person
-                                    </span>
-                                </div>
-                                <p className="relative mt-3 text-xs text-teal-100/90">
-                                    A memorable trip is closer than you think.
-                                </p>
-                            </div>
+                    <BookingCard destinationData={destinationData} />
 
-                            <CardContent className="space-y-5 p-5 sm:p-6">
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle2
-                                        className="mt-0.5 h-5 w-5 shrink-0 text-teal-700"
-                                        aria-hidden="true"
-                                    />
-                                    <div>
-                                        <p className="text-sm font-semibold text-slate-900">
-                                            A memorable destination
-                                        </p>
-                                        <p className="mt-1 text-xs leading-5 text-slate-500">
-                                            Discover the highlights of {destinationData.name}.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle2
-                                        className="mt-0.5 h-5 w-5 shrink-0 text-teal-700"
-                                        aria-hidden="true"
-                                    />
-                                    <div>
-                                        <p className="text-sm font-semibold text-slate-900">
-                                            Planned departure
-                                        </p>
-                                        <p className="mt-1 text-xs leading-5 text-slate-500">
-                                            {formattedDate}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle2
-                                        className="mt-0.5 h-5 w-5 shrink-0 text-teal-700"
-                                        aria-hidden="true"
-                                    />
-                                    <div>
-                                        <p className="text-sm font-semibold text-slate-900">
-                                            Trip duration
-                                        </p>
-                                        <p className="mt-1 text-xs leading-5 text-slate-500">
-                                            {destinationData.duration}
-                                        </p>
-                                    </div>
-                                </div>
-                                <Separator className="bg-slate-100" />
-                                <Button
-                                    nativeButton={false}
-                                    render={
-                                        <Link href={`/booking/${destinationData._id}`} />
-                                    }
-                                    className="h-12 w-full rounded-xl bg-teal-700 font-semibold text-white shadow-sm shadow-teal-900/15 transition hover:bg-teal-800 focus-visible:ring-teal-700"
-                                >
-                                    Book This Trip
-                                    <ArrowRight
-                                        className="ml-2 h-4 w-4"
-                                        aria-hidden="true"
-                                    />
-                                </Button>
-                                <p className="text-center text-xs leading-5 text-slate-500">
-                                    Ready to explore? Start planning your journey today.
-                                </p>
-                                <div className="flex items-center justify-center gap-2 text-center text-xs font-medium text-slate-500">
-                                    <ShieldCheck
-                                        className="h-4 w-4 shrink-0 text-teal-700"
-                                        aria-hidden="true"
-                                    />
-                                    Plan your next adventure with confidence
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </aside>
                 </div>
             </div>
         </main>
