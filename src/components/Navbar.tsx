@@ -18,7 +18,7 @@ import { Button } from "./ui/button";
 const navLinks = [
   { href: "/", label: "Home", active: true },
   { href: "/destinations", label: "Destinations" },
-  { href: "/bookings", label: "My Bookings" },
+  { href: "/my-bookings", label: "My Bookings" },
   { href: "/add-destination", label: "Add Destination" },
 ];
 
