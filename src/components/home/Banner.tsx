@@ -25,13 +25,13 @@ export default function Banner() {
       </div>
 
       {/* Hero content */}
-      <div className="relative z-10 flex min-h-[560px] flex-col items-center justify-center px-4 pt-24 pb-36 text-center">
+      <div className="relative z-10 flex min-h-140 flex-col items-center justify-center px-4 pt-24 pb-36 text-center">
         <h1 className="text-4xl font-normal text-white sm:text-5xl md:text-6xl lg:text-7xl">
           Discover Your
           <br />
           Next Adventure
         </h1>
-        <p className="mt-5 max-w-[600px] text-sm leading-relaxed text-white/85 md:text-base">
+        <p className="mt-5 max-w-150 text-sm leading-relaxed text-white/85 md:text-base">
           Explore breathtaking destinations and create unforgettable memories
           with our curated travel experiences.
         </p>
