@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface Destination {
   _id: string;
@@ -68,6 +69,8 @@ export default function EditDestinationDialog({
     e.preventDefault();
     setLoading(true);
 
+    const token = await getTokenFromClient()
+
     try {
       const res = await fetch(
         `http://localhost:8000/destination/${destination._id}`,
@@ -75,6 +78,7 @@ export default function EditDestinationDialog({
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`
           },
           body: JSON.stringify(formData),
         }

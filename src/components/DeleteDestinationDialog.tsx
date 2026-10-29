@@ -17,6 +17,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface DeleteDestinationDialogProps {
     destinationId: string;
@@ -36,11 +37,16 @@ export default function DeleteDestinationDialog({
         setLoading(true);
         setError("");
 
+        const token = await getTokenFromClient()
+
         try {
             const res = await fetch(
                 `http://localhost:8000/destination/${destinationId}`,
                 {
                     method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 

@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import EditDestinationDialog from "@/components/EditDestinationDialog";
 import DeleteDestinationDialog from "@/components/DeleteDestinationDialog";
 import BookingCard from "@/components/booking/BookingCard";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 interface Destination {
     _id: string;
@@ -35,18 +36,22 @@ interface Destination {
 }
 
 function formattedDate(value: string) {
-        const [year, month, day] = value.split("-");
-        return `${month}/${day}/${year}`;
-    }
+    const [year, month, day] = value.split("-");
+    return `${month}/${day}/${year}`;
+}
 
 const destinationDetailsPage = async ({ params }: { params: Promise<{ id: string }>; }) => {
     const { id } = await params;
 
+    const token = await getTokenFromServer()
+
     const res = await fetch(
         `http://localhost:8000/destination/${id}`,
         {
-            cache: "no-store",
-        }
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        },
     );
 
     if (!res.ok) {
@@ -57,7 +62,7 @@ const destinationDetailsPage = async ({ params }: { params: Promise<{ id: string
 
 
 
-    
+
 
     return (
         <main className="min-h-screen bg-linear-to-b from-teal-50/50 via-slate-50 to-white">
