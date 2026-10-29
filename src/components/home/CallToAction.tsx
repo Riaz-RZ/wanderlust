@@ -18,7 +18,7 @@ export default function CallToAction() {
       <div className="absolute inset-0 bg-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[440px] flex-col items-center justify-center px-4 py-20 text-center md:min-h-[500px]">
+      <div className="relative z-10 flex min-h-110 flex-col items-center justify-center px-4 py-20 text-center md:min-h-125">
         <h2 className="text-3xl font-normal text-white md:text-5xl">
           Ready To Start Your Journey?
         </h2>

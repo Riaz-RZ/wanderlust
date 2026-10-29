@@ -35,7 +35,7 @@ interface Destination {
   description: string;
 }
 
-const API_URL = "http://localhost:8000/featured-destinations";
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/featured-destinations`;
 
 export default function Featured() {
   const [destinations, setDestinations] = useState<Destination[]>([]);

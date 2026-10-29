@@ -41,7 +41,7 @@ export default function DeleteDestinationDialog({
 
         try {
             const res = await fetch(
-                `http://localhost:8000/destination/${destinationId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/destination/${destinationId}`,
                 {
                     method: "DELETE",
                     headers: {
