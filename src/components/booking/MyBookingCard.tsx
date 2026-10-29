@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 import {
   Card,
   CardContent,
@@ -38,9 +39,15 @@ const MyBookingCard = ({ booking }: MyBookingCardProps) => {
     setDeleteError("");
 
     try {
+      const token = await getTokenFromClient();
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/${booking._id}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (!response.ok) {
